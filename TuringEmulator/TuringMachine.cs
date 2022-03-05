@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,8 +37,8 @@ namespace TuringEmulator
         private void RunCommand(TransitionFunction tf)
         {
             if (!CheckFunction(tf))
-                return;       
-            
+                return;
+
         }
 
         public void MakeStep(TransitionFunction tf)
@@ -58,8 +59,6 @@ namespace TuringEmulator
         {
             return true;
         }
-
-        
 
     }
 }
