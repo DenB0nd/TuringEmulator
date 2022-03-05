@@ -18,14 +18,13 @@ namespace TuringEmulator
         public string Alphabet { get; set; } = " ";
         public TransitionFunctionsTable TransitionFunctionsTable { get; set; } = TransitionFunctionsTable.Default;
 
-        private TransitionFunction CurrentFunction { get; set; } = null;
+        //private TransitionFunction CurrentFunction { get; set; };
 
         public TuringMachine(TransitionFunctionsTable transitionFunctionsTable, InfTape tape, string alphabet = " ")
         {
             TransitionFunctionsTable = transitionFunctionsTable;
             Tape = tape;
             Alphabet = alphabet;
-            CurrentFunction = TransitionFunctionsTable.FindFunction(Tape[Head], State);
         }
         public TuringMachine() : this(TransitionFunctionsTable.Default, InfTape.Default) { }
 
