@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 
 namespace TuringEmulator
 {
+    class InfTape : IEnumerable<char>
+    {
+        private StringBuilder Tape { get; } = new("");
+        private int Origin { get; set; } = 0;
 
     internal class TuringMachine
-    {
+        {
         public const int HALT = -1;
 
         public int State { get; set; } = 0;
@@ -31,6 +35,7 @@ namespace TuringEmulator
         public bool Run()
         {
             return true;
+            }
         }
 
         private void RunCommand(TransitionFunction tf)
@@ -38,10 +43,15 @@ namespace TuringEmulator
             if (!CheckFunction(tf))
                 return;
 
-        }
+    enum Directions
+    {
+        Left,
+        Right,
+        None
+    }
 
         public void MakeStep(TransitionFunction tf)
-        {
+    {
             State = tf.NextState;
             Tape[Head] = tf.WriteSymbol;
             Move(tf.Direction);
@@ -52,12 +62,15 @@ namespace TuringEmulator
         public bool Check()
         {
             return true;
-        }
+    }
 
         public bool CheckFunction(TransitionFunction tf)
         {
             return true;
         }
+
+        public TuringMachine() : this(TransitionFunctionsTable.Default, InfTape.Default) { }
+
 
     }
 }

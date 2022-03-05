@@ -17,6 +17,7 @@ namespace TuringEmulator
             Console.WriteLine(it[0]);
             Console.WriteLine(it[1]);
             Console.WriteLine(it);
+          
         }
     }
 }
