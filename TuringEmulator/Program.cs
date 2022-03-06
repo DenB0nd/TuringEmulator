@@ -11,18 +11,16 @@ namespace TuringEmulator
             TransitionFunctionsTable table = new TransitionFunctionsTable
                 (new[]
                 {
-                    new TransitionFunction(0,'0',0,'1',Directions.None)
-
+                    new TransitionFunction(0,'0',0,'1',Directions.None),
+                    new TransitionFunction(0,'0',0,'1',Directions.None),
+                    new TransitionFunction(0,'0',1,'2',Directions.None),
+                    new TransitionFunction(1,'0',0,'1',Directions.None),
+                    new TransitionFunction(1,'1',0,'1',Directions.None)
                 });
-            try
+            foreach (var item in table)
             {
-                machine.CheckFunction(new TransitionFunction(0, '2', 0, '3', Directions.None));
+                Console.WriteLine(item);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message.ToString());
-            }
-            Console.WriteLine(new TransitionFunction(0, '2', 0, '3', Directions.None));
         }
     }
 }

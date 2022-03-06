@@ -1,4 +1,7 @@
 ﻿
+using System.Collections;
+using System.Linq;
+
 namespace TuringEmulator
 {
     enum Directions
@@ -15,9 +18,9 @@ namespace TuringEmulator
         public int CurrentState
         {
             get { return currentState; }
-            set 
+            set
             {
-                if(value < -1)
+                if (value < -1)
                     currentState = -1;
                 currentState = value;
             }
@@ -26,7 +29,7 @@ namespace TuringEmulator
         public char TapeSymbol { get; }
 
         private int nextState;
-        
+
         public int NextState
         {
             get { return nextState; }
@@ -40,7 +43,7 @@ namespace TuringEmulator
         public char WriteSymbol { get; }
 
         public Directions Direction { get; }
-        public TransitionFunction(int currentState = -1, char tapeSymbol = ' ', 
+        public TransitionFunction(int currentState = -1, char tapeSymbol = ' ',
             int nextState = -1, char writeSymbol = ' ', Directions direction = Directions.None)
         {
             CurrentState = currentState;
@@ -55,43 +58,63 @@ namespace TuringEmulator
 
         public bool Equals(TransitionFunction? other)
         {
-            return other is TransitionFunction && CurrentState == other.CurrentState && TapeSymbol == other.TapeSymbol && 
-                NextState == other.NextState && WriteSymbol == other.WriteSymbol && Direction == other.Direction;    
+            return other is TransitionFunction && CurrentState == other.CurrentState && TapeSymbol == other.TapeSymbol &&
+                NextState == other.NextState && WriteSymbol == other.WriteSymbol && Direction == other.Direction;
         }
 
         public override string ToString() => CurrentState.ToString() + TapeSymbol +
-            "->" + NextState.ToString() + WriteSymbol + Direction.ToString()[0]; 
+            "->" + NextState.ToString() + WriteSymbol + Direction.ToString()[0];
 
     }
 
 
-    class TransitionFunctionsTable
+    class TransitionFunctionsTable : IEnumerable<TransitionFunction>
     {
-        private List<TransitionFunction> transitionFunctions;
+        private List<TransitionFunction> transitionFunctions = new List<TransitionFunction>();
 
-        public TransitionFunctionsTable(IEnumerable<TransitionFunction> collection)
-        {
-            if (collection == null)
-                throw new ArgumentNullException();
-            transitionFunctions = new List<TransitionFunction>(collection);
-        }
+        public TransitionFunctionsTable(IEnumerable<TransitionFunction> collection) => Add(collection);
 
-        public TransitionFunctionsTable() => transitionFunctions = new List<TransitionFunction> ().Distinct().ToList();
+        public TransitionFunctionsTable() => transitionFunctions = new List<TransitionFunction>();
 
         static private readonly TransitionFunctionsTable _default =
             new TransitionFunctionsTable(new List<TransitionFunction> { TransitionFunction.Default });
 
         static public TransitionFunctionsTable Default { get { return _default; } }
 
-        public void Add(TransitionFunction tf) => transitionFunctions.Add(tf);
-
-        public void Add(IEnumerable<TransitionFunction> tf) => transitionFunctions.AddRange(tf);
+        public void Add(TransitionFunction tf)
+        {
+            if (tf == null)
+                throw new ArgumentNullException();
+            transitionFunctions.Add(tf);
+            RemoveCopies();
+        }
+        public void Add(IEnumerable<TransitionFunction> collection)
+        {
+            if (collection == null)
+                throw new ArgumentNullException();
+            transitionFunctions.AddRange(collection);
+            RemoveCopies();
+        }
 
         public TransitionFunction FindFunction(char symbol, int state)
         {
             return transitionFunctions.FirstOrDefault(s => s.TapeSymbol == s.TapeSymbol && s.CurrentState == state) ?? TransitionFunction.Default;
         }
 
+        public IEnumerator<TransitionFunction> GetEnumerator() => transitionFunctions.GetEnumerator();
 
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        private void RemoveCopies()
+        {
+            transitionFunctions = transitionFunctions
+                .GroupBy(g => new
+                {
+                    g.CurrentState,
+                    g.TapeSymbol
+                })
+                .Select(f => f.First())
+                .ToList();
+        }
     }
 }
