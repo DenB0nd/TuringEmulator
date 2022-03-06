@@ -15,7 +15,7 @@ namespace TuringEmulator
                     new TransitionFunction(0,'1',0,'0',Directions.Right),
                     new TransitionFunction(0,' ',TuringMachine.HALT,' ',Directions.None),
                 });
-            machine.Tape = new InfTape("010101", 0);
+            machine.Tape = new InfTape("1010101", 0);
             Console.WriteLine(machine.Tape);
             machine.TFT = table;
             machine.Run();
