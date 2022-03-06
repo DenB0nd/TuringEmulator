@@ -15,33 +15,32 @@ namespace TuringEmulator
         public InfTape Tape { get; set; } = InfTape.Default;
         public int Head { get; set; } = 0;
         public string Alphabet { get; set; } = " ";
-        public TransitionFunctionsTable TransitionFunctionsTable { get; set; } = TransitionFunctionsTable.Default;
+        public TransitionFunctionsTable TFT { get; set; } = TransitionFunctionsTable.Default;
 
         //private TransitionFunction CurrentFunction { get; set; };
 
         public void Clear() => Tape.Clear();
 
-        static private readonly InfTape _default = new InfTape(" ", 0);
-        static public InfTape Default { get { return _default; } }
-
-        public char this[int index]
+        public TuringMachine(TransitionFunctionsTable table, InfTape tape)
         {
-            TransitionFunctionsTable = transitionFunctionsTable;
+            TFT = table;
             Tape = tape;
-            Alphabet = alphabet;
         }
+
+
         public TuringMachine() : this(TransitionFunctionsTable.Default, InfTape.Default) { }
 
         public bool Run()
         {
+            /* TransitionFunction CurrentFunction = TFT.FindFunction()
+             while ()*/
             return true;
         }
 
 
         private void RunCommand(TransitionFunction tf)
         {
-            if (!CheckFunction(tf))
-                return;
+           
         }
 
         public void MakeStep(TransitionFunction tf)
@@ -58,9 +57,21 @@ namespace TuringEmulator
             return true;
         }
 
-        public bool CheckFunction(TransitionFunction tf)
+        public void CheckFunction(TransitionFunction tf)
         {
-            return true;
+            if (!Alphabet.Contains(tf.TapeSymbol))
+                TMThrowHelper.ThrowAlphabetException(nameof(tf.TapeSymbol), tf.TapeSymbol);
+            if (!Alphabet.Contains(tf.WriteSymbol))
+                TMThrowHelper.ThrowAlphabetException(nameof(tf.WriteSymbol), tf.WriteSymbol);
+            
+        }
+    }
+
+    static class TMThrowHelper
+    {
+        static public void ThrowAlphabetException(string name, char symbol)
+        {
+            throw new ArgumentException($"The Alphabet doesn't contain this {name} - {symbol}");
         }
     }
 }

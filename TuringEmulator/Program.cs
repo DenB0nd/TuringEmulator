@@ -6,18 +6,23 @@ namespace TuringEmulator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("bruh");
-            string str = "abcd";
-            Console.WriteLine(str[^1]);
-            InfTape it = new(str, 2);
-            Console.WriteLine(it[-2]);
-            it[-2] = 'q';
-            Console.WriteLine(it[-2]);
-            Console.WriteLine(it[-1]);
-            Console.WriteLine(it[0]);
-            Console.WriteLine(it[1]);
-            Console.WriteLine(it);
+            TuringMachine machine = new TuringMachine();
+            machine.Alphabet = "01";
+            TransitionFunctionsTable table = new TransitionFunctionsTable
+                (new[]
+                {
+                    new TransitionFunction(0,'0',0,'1',Directions.None)
 
+                });
+            try
+            {
+                machine.CheckFunction(new TransitionFunction(0, '2', 0, '3', Directions.None));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+            }
+            Console.WriteLine(new TransitionFunction(0, '2', 0, '3', Directions.None));
         }
     }
 }
