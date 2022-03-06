@@ -14,33 +14,34 @@ namespace TuringEmulator
         public int State { get; set; } = 0;
         public InfTape Tape { get; set; } = InfTape.Default;
         public int Head { get; set; } = 0;
-        public string Alphabet { get; set; } = " ";
+
+        private string alphabet = " ";
+        public string Alphabet
+        {
+            get { return alphabet; }
+            set { alphabet = new string((value + " ").Distinct().ToArray()); }
+        } 
         public TransitionFunctionsTable TFT { get; set; } = TransitionFunctionsTable.Default;
 
         //private TransitionFunction CurrentFunction { get; set; };
 
         public void Clear() => Tape.Clear();
 
-        public TuringMachine(TransitionFunctionsTable table, InfTape tape)
-        {
-            TFT = table;
-            Tape = tape;
-        }
+        public TuringMachine() { }
 
-        public TuringMachine() : this(TransitionFunctionsTable.Default, InfTape.Default) { }
-
-        public bool Run()
+        public TuringMachine Run()
         {          
             while (State != HALT)
             {
                 RunCommand();
             }
-            return true;
+            return this;
         }
 
-        private void RunCommand()
+        public void RunCommand()
         {
             TransitionFunction tf = TFT.FindFunction(Tape[Head], State);
+            CheckFunction(tf);
             MakeStep(tf);
         }
 
@@ -59,17 +60,17 @@ namespace TuringEmulator
             State = 0;
         }
 
-        public bool Check()
-        {
-            return true;
-        }
-
         public void CheckFunction(TransitionFunction tf)
         {
+            if (tf == null)
+                throw new ArgumentNullException(nameof(tf));
+            if (tf == TransitionFunction.Default)
+                TMThrowHelper.ThrowCommandException(Tape[Head], State);
             if (!Alphabet.Contains(tf.TapeSymbol))
                 TMThrowHelper.ThrowAlphabetException(nameof(tf.TapeSymbol), tf.TapeSymbol);
             if (!Alphabet.Contains(tf.WriteSymbol))
                 TMThrowHelper.ThrowAlphabetException(nameof(tf.WriteSymbol), tf.WriteSymbol);
+
             
         }
     }
@@ -78,7 +79,11 @@ namespace TuringEmulator
     {
         static public void ThrowAlphabetException(string name, char symbol)
         {
-            throw new ArgumentException($"The Alphabet doesn't contain this {name} - {symbol}");
+            throw new ArgumentException($"The Alphabet doesn't contain this {name} - \"{symbol}\"");
+        }
+        static public void ThrowCommandException(char symbol, int state)
+        {
+            throw new ArgumentException($"The table doesn't contain a command with the required parameters TapeSymbol - \"{symbol}\", State - {state}");
         }
     }
 }

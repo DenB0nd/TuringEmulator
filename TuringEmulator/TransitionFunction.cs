@@ -108,6 +108,7 @@ namespace TuringEmulator
         private void RemoveCopies()
         {
             transitionFunctions = transitionFunctions
+                .Where(s => s != null)
                 .GroupBy(g => new
                 {
                     g.CurrentState,
