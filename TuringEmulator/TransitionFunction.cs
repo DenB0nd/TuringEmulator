@@ -98,7 +98,7 @@ namespace TuringEmulator
 
         public TransitionFunction FindFunction(char symbol, int state)
         {
-            return transitionFunctions.FirstOrDefault(s => s.TapeSymbol == s.TapeSymbol && s.CurrentState == state) ?? TransitionFunction.Default;
+            return transitionFunctions.FirstOrDefault(s => s.TapeSymbol == symbol && s.CurrentState == state) ?? TransitionFunction.Default;
         }
 
         public IEnumerator<TransitionFunction> GetEnumerator() => transitionFunctions.GetEnumerator();

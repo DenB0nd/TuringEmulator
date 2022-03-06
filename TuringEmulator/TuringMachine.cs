@@ -9,7 +9,7 @@ namespace TuringEmulator
 {
     internal class TuringMachine
     {
-        public const int HALT = -1;
+        static public readonly int HALT = -1;
 
         public int State { get; set; } = 0;
         public InfTape Tape { get; set; } = InfTape.Default;
@@ -27,20 +27,21 @@ namespace TuringEmulator
             Tape = tape;
         }
 
-
         public TuringMachine() : this(TransitionFunctionsTable.Default, InfTape.Default) { }
 
         public bool Run()
-        {
-            /* TransitionFunction CurrentFunction = TFT.FindFunction()
-             while ()*/
+        {          
+            while (State != HALT)
+            {
+                RunCommand();
+            }
             return true;
         }
 
-
-        private void RunCommand(TransitionFunction tf)
+        private void RunCommand()
         {
-           
+            TransitionFunction tf = TFT.FindFunction(Tape[Head], State);
+            MakeStep(tf);
         }
 
         public void MakeStep(TransitionFunction tf)
@@ -51,6 +52,12 @@ namespace TuringEmulator
         }
 
         private void Move(Directions direction) => Head += (int)direction;
+
+        public void Reset()
+        {
+            Head = 0;
+            State = 0;
+        }
 
         public bool Check()
         {
