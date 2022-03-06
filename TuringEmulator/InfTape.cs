@@ -27,7 +27,7 @@ namespace TuringEmulator
             Origin = origin;
         }
 
-        public void Clear() => Tape.Clear();
+        public void Clear() => Tape.Clear();    
 
         public char this[int index]
         {
@@ -43,7 +43,7 @@ namespace TuringEmulator
                     Tape.Append(' ', index - (Tape.Length - Origin)).Append(value);
                 else if (index < -Origin)
                 {
-                    Tape.Insert(0, new StringBuilder(value.ToString()).Append(' ', -index - Origin - 1));
+                    Tape.Insert(0, new StringBuilder(value.ToString()).Append(' ', -index - Origin - 1)); 
                     Origin += -index - Origin;
                 }
                 else Tape[Origin + index] = value;

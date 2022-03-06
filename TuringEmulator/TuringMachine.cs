@@ -19,7 +19,12 @@ namespace TuringEmulator
 
         //private TransitionFunction CurrentFunction { get; set; };
 
-        public TuringMachine(TransitionFunctionsTable transitionFunctionsTable, InfTape tape, string alphabet = " ")
+        public void Clear() => Tape.Clear();
+
+        static private readonly InfTape _default = new InfTape(" ", 0);
+        static public InfTape Default { get { return _default; } }
+
+        public char this[int index]
         {
             TransitionFunctionsTable = transitionFunctionsTable;
             Tape = tape;

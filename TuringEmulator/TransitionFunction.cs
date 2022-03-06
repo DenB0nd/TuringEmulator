@@ -16,7 +16,7 @@ namespace TuringEmulator
         public char WriteSymbol { get; }
 
         public Directions Direction { get; }
-        public TransitionFunction(int currentState = 0, char tapeSymbol = ' ',
+        public TransitionFunction(int currentState = 0, char tapeSymbol = ' ', 
             int nextState = 0, char writeSymbol = ' ', Directions direction = Directions.None)
         {
             CurrentState = currentState;
