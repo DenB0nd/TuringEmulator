@@ -20,8 +20,8 @@ namespace TuringEmulator
             get { return currentState; }
             set
             {
-                if (value < -1)
-                    currentState = -1;
+                if (value < TuringMachine.HALT)
+                    currentState = TuringMachine.HALT;
                 currentState = value;
             }
         }
@@ -35,16 +35,16 @@ namespace TuringEmulator
             get { return nextState; }
             set
             {
-                if (value < -1)
-                    nextState = -1;
+                if (value < TuringMachine.HALT)
+                    nextState = TuringMachine.HALT;
                 nextState = value;
             }
         }
         public char WriteSymbol { get; }
 
         public Directions Direction { get; }
-        public TransitionFunction(int currentState = -1, char tapeSymbol = ' ',
-            int nextState = -1, char writeSymbol = ' ', Directions direction = Directions.None)
+        public TransitionFunction(int currentState = TuringMachine.HALT, char tapeSymbol = ' ',
+            int nextState = TuringMachine.HALT, char writeSymbol = ' ', Directions direction = Directions.None)
         {
             CurrentState = currentState;
             TapeSymbol = tapeSymbol;

@@ -9,7 +9,7 @@ namespace TuringEmulator
 {
     public class TuringMachine
     {
-        static public readonly int HALT = -1;
+        public const int HALT = -1;
 
         public int State { get; set; } = 0;
         public InfTape Tape { get; set; } = InfTape.Default;

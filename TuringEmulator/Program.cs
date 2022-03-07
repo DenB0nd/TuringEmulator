@@ -22,7 +22,7 @@ namespace TuringEmulator
                     new TransitionFunction(2, '1', 2, '1', Directions.Right),
                     new TransitionFunction(3, ' ', 3, ' ', Directions.Left),
                     new TransitionFunction(3, '1', 4, ' ', Directions.Left),
-                    new TransitionFunction(4, ' ', -1, ' ', Directions.None),
+                    new TransitionFunction(4, ' ', TuringMachine.HALT, ' ', Directions.None),
                     new TransitionFunction(4, '1', 4, '1', Directions.Left)
                 });
             machine.Tape = new InfTape(" 11 11", 0);
