@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TuringEmulator
 {
-    internal class TuringMachine
+    public class TuringMachine
     {
         static public readonly int HALT = -1;
 

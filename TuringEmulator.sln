@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TuringEmulator", "TuringEmulator\TuringEmulator.csproj", "{0D1033AA-DAA0-4E2F-91D0-3F17E9892CF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TuringEmulator", "TuringEmulator\TuringEmulator.csproj", "{0D1033AA-DAA0-4E2F-91D0-3F17E9892CF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TuringEmulatorTests", "TuringEmulatorTests\TuringEmulatorTests.csproj", "{1AA3201F-0300-4A77-8886-C4DC2CB7221F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0D1033AA-DAA0-4E2F-91D0-3F17E9892CF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D1033AA-DAA0-4E2F-91D0-3F17E9892CF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D1033AA-DAA0-4E2F-91D0-3F17E9892CF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AA3201F-0300-4A77-8886-C4DC2CB7221F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AA3201F-0300-4A77-8886-C4DC2CB7221F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AA3201F-0300-4A77-8886-C4DC2CB7221F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AA3201F-0300-4A77-8886-C4DC2CB7221F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

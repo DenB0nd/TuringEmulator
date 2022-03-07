@@ -3,7 +3,7 @@ using System.Text;
 
 namespace TuringEmulator
 {
-    class InfTape : IEnumerable<char>
+    public class InfTape : IEnumerable<char>
     {
         private StringBuilder Tape { get; } = new(" ");
         private int Origin { get; set; } = 0;

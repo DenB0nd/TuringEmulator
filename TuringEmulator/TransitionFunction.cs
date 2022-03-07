@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace TuringEmulator
 {
-    enum Directions
+    public enum Directions
     {
         Left = -1,
         None = 0,
         Right = 1
     }
 
-    class TransitionFunction : IEquatable<TransitionFunction>
+    public class TransitionFunction : IEquatable<TransitionFunction>
     {
         private int currentState;
 
@@ -68,7 +68,7 @@ namespace TuringEmulator
     }
 
 
-    class TransitionFunctionsTable : IEnumerable<TransitionFunction>
+    public class TransitionFunctionsTable : IEnumerable<TransitionFunction>
     {
         private List<TransitionFunction> transitionFunctions = new List<TransitionFunction>();
 
