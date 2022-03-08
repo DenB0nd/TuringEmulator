@@ -1,6 +1,5 @@
 ﻿
 using System.Collections;
-using System.Linq;
 
 namespace TuringEmulator
 {
@@ -11,7 +10,7 @@ namespace TuringEmulator
         Right = 1
     }
 
-    public class TransitionFunction : IEquatable<TransitionFunction>
+    public sealed class TransitionFunction : IEquatable<TransitionFunction>
     {
         private int currentState;
 
@@ -22,6 +21,7 @@ namespace TuringEmulator
             {
                 if (value < TuringMachine.HALT)
                     currentState = TuringMachine.HALT;
+
                 currentState = value;
             }
         }
@@ -37,6 +37,7 @@ namespace TuringEmulator
             {
                 if (value < TuringMachine.HALT)
                     nextState = TuringMachine.HALT;
+
                 nextState = value;
             }
         }
@@ -56,9 +57,12 @@ namespace TuringEmulator
         static private readonly TransitionFunction _default = new TransitionFunction();
         static public TransitionFunction Default { get { return _default; } }
 
-        public bool Equals(TransitionFunction? other)
+        bool IEquatable<TransitionFunction>.Equals(TransitionFunction? other)
         {
-            return other is TransitionFunction && CurrentState == other.CurrentState && TapeSymbol == other.TapeSymbol &&
+            if(other == null)
+                throw new ArgumentNullException(nameof(other));
+
+            return CurrentState == other.CurrentState && TapeSymbol == other.TapeSymbol &&
                 NextState == other.NextState && WriteSymbol == other.WriteSymbol && Direction == other.Direction;
         }
 
@@ -76,27 +80,30 @@ namespace TuringEmulator
 
         public TransitionFunctionsTable() => transitionFunctions = new List<TransitionFunction>();
 
-        static private readonly TransitionFunctionsTable _default =
-            new TransitionFunctionsTable(new List<TransitionFunction> { TransitionFunction.Default });
+        static private readonly TransitionFunctionsTable _default = new TransitionFunctionsTable();
 
         static public TransitionFunctionsTable Default { get { return _default; } }
 
         public void Add(TransitionFunction tf)
         {
             if (tf == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(tf));
+
             transitionFunctions.Add(tf);
+
             RemoveCopies();
         }
         public void Add(IEnumerable<TransitionFunction> collection)
         {
             if (collection == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(collection));
+
             transitionFunctions.AddRange(collection);
+
             RemoveCopies();
         }
 
-        public TransitionFunction FindFunction(char symbol, int state)
+        public TransitionFunction FindFunctionToPerform(char symbol, int state)
         {
             return transitionFunctions.FirstOrDefault(s => s.TapeSymbol == symbol && s.CurrentState == state) ?? TransitionFunction.Default;
         }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TuringEmulator
+﻿namespace TuringEmulator
 {
     public class TuringMachine
     {
@@ -19,11 +12,14 @@ namespace TuringEmulator
         public string Alphabet
         {
             get { return alphabet; }
-            set { alphabet = new string((value + " ").Distinct().ToArray()); }
+            set 
+            {
+                alphabet = new string((value + " ")
+                    .Distinct()
+                    .ToArray());
+            }
         } 
-        public TransitionFunctionsTable TFT { get; set; } = TransitionFunctionsTable.Default;
-
-        //private TransitionFunction CurrentFunction { get; set; };
+        public TransitionFunctionsTable Table { get; set; } = TransitionFunctionsTable.Default;
 
         public void Clear() => Tape.Clear();
 
@@ -40,7 +36,7 @@ namespace TuringEmulator
 
         public void RunCommand()
         {
-            TransitionFunction tf = TFT.FindFunction(Tape[Head], State);
+            TransitionFunction tf = Table.FindFunctionToPerform(Tape[Head], State);
             CheckFunction(tf);
             MakeStep(tf);
         }
@@ -49,10 +45,10 @@ namespace TuringEmulator
         {
             State = tf.NextState;
             Tape[Head] = tf.WriteSymbol;
-            Move(tf.Direction);
+            MoveHead(tf.Direction);
         }
 
-        private void Move(Directions direction) => Head += (int)direction;
+        private void MoveHead(Directions direction) => Head += (int)direction;
 
         public void Reset()
         {

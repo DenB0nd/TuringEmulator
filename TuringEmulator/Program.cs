@@ -2,7 +2,7 @@
 
 namespace TuringEmulator
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -27,13 +27,14 @@ namespace TuringEmulator
                 });
             machine.Tape = new InfTape(" 11 11", 0);
             Console.WriteLine(machine.Tape);
-            machine.TFT = table;
+            machine.Table = table;
             while(machine.State != TuringMachine.HALT)
             {
                 machine.RunCommand();
                 Console.WriteLine(machine.Tape);
             }
             Console.WriteLine(machine.Tape);
+            
         }
     }
 }
