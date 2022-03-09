@@ -3,25 +3,34 @@ using System.Text;
 
 namespace TuringEmulator
 {
-    public class InfTape : IEnumerable<char>
+    public class InfiniteTape : IEnumerable<char>
     {
         private StringBuilder Tape { get; } = new(" ");
         private int Origin { get; set; } = 0;
 
-        static private readonly InfTape _default = new InfTape(" ", 0);
-        static public InfTape Default { get { return _default; } }
+        static private readonly InfiniteTape _default = new InfiniteTape(" ", 0);
+        static public InfiniteTape Default { get { return _default; } }
 
-        public InfTape(string str = " ", int origin = 0) => Set(str, origin);
-        public InfTape(StringBuilder str, int origin = 0)
+        public InfiniteTape(string str = " ", int origin = 0) => Set(str, origin);
+
+        public InfiniteTape(StringBuilder str, int origin = 0)
         {
-            if (str == null)
-                throw new ArgumentNullException(nameof(str));
+            ArgumentNullException.ThrowIfNull(str);
+
             Set(str.ToString(), origin);
         }
+
+        public InfiniteTape(InfiniteTape tape)
+        {
+            ArgumentNullException.ThrowIfNull(tape);
+
+            Set(tape.Tape.ToString(), tape.Origin);
+        }
+
         public void Set(string str = " ", int origin = 0)
         {
-            if (str == null)
-                throw new ArgumentNullException(nameof(str));
+            ArgumentNullException.ThrowIfNull(str);
+
             Clear();
             Tape.Append(str);
             Origin = origin;

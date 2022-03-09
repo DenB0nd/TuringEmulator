@@ -5,7 +5,7 @@
         public const int HALT = -1;
 
         public int State { get; set; } = 0;
-        public InfTape Tape { get; set; } = InfTape.Default;
+        public InfiniteTape Tape { get; set; } = InfiniteTape.Default;
         public int Head { get; set; } = 0;
 
         private string alphabet = " ";
@@ -21,9 +21,18 @@
         } 
         public TransitionFunctionsTable Table { get; set; } = TransitionFunctionsTable.Default;
 
-        public void Clear() => Tape.Clear();
-
         public TuringMachine() { }
+
+        public TuringMachine(TuringMachine machine)
+        {
+            ArgumentNullException.ThrowIfNull(machine);
+
+            Tape = new InfiniteTape(machine.Tape);
+            Alphabet = machine.Alphabet;
+            State = machine.State;
+            Head = machine.Head;
+            Table = new TransitionFunctionsTable(machine.Table);
+        }
 
         public TuringMachine Run()
         {          
@@ -41,7 +50,28 @@
             MakeStep(tf);
         }
 
-        public void MakeStep(TransitionFunction tf)
+        public void Reset()
+        {
+            Head = 0;
+            State = 0;
+        }
+
+        private void CheckFunction(TransitionFunction tf)
+        {
+            ArgumentNullException.ThrowIfNull(tf);
+
+            if (tf == TransitionFunction.Default)
+                TMThrowHelper.ThrowCommandException(Tape[Head], State);
+
+            if (!Alphabet.Contains(tf.TapeSymbol))
+                TMThrowHelper.ThrowAlphabetException(nameof(tf.TapeSymbol), tf.TapeSymbol);
+
+            if (!Alphabet.Contains(tf.WriteSymbol))
+                TMThrowHelper.ThrowAlphabetException(nameof(tf.WriteSymbol), tf.WriteSymbol);
+       
+        }
+
+        private void MakeStep(TransitionFunction tf)
         {
             State = tf.NextState;
             Tape[Head] = tf.WriteSymbol;
@@ -49,26 +79,6 @@
         }
 
         private void MoveHead(Directions direction) => Head += (int)direction;
-
-        public void Reset()
-        {
-            Head = 0;
-            State = 0;
-        }
-
-        public void CheckFunction(TransitionFunction tf)
-        {
-            if (tf == null)
-                throw new ArgumentNullException(nameof(tf));
-            if (tf == TransitionFunction.Default)
-                TMThrowHelper.ThrowCommandException(Tape[Head], State);
-            if (!Alphabet.Contains(tf.TapeSymbol))
-                TMThrowHelper.ThrowAlphabetException(nameof(tf.TapeSymbol), tf.TapeSymbol);
-            if (!Alphabet.Contains(tf.WriteSymbol))
-                TMThrowHelper.ThrowAlphabetException(nameof(tf.WriteSymbol), tf.WriteSymbol);
-
-            
-        }
     }
 
     static class TMThrowHelper

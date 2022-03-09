@@ -44,6 +44,11 @@ namespace TuringEmulator
         public char WriteSymbol { get; }
 
         public Directions Direction { get; }
+
+        static private readonly TransitionFunction _default = new TransitionFunction();
+
+        static public TransitionFunction Default { get { return _default; } }
+
         public TransitionFunction(int currentState = TuringMachine.HALT, char tapeSymbol = ' ',
             int nextState = TuringMachine.HALT, char writeSymbol = ' ', Directions direction = Directions.None)
         {
@@ -54,13 +59,11 @@ namespace TuringEmulator
             Direction = direction;
         }
 
-        static private readonly TransitionFunction _default = new TransitionFunction();
-        static public TransitionFunction Default { get { return _default; } }
+ 
 
         bool IEquatable<TransitionFunction>.Equals(TransitionFunction? other)
         {
-            if(other == null)
-                throw new ArgumentNullException(nameof(other));
+            ArgumentNullException.ThrowIfNull(other);
 
             return CurrentState == other.CurrentState && TapeSymbol == other.TapeSymbol &&
                 NextState == other.NextState && WriteSymbol == other.WriteSymbol && Direction == other.Direction;
@@ -74,29 +77,40 @@ namespace TuringEmulator
 
     public class TransitionFunctionsTable : IEnumerable<TransitionFunction>
     {
-        private List<TransitionFunction> transitionFunctions = new List<TransitionFunction>();
 
-        public TransitionFunctionsTable(IEnumerable<TransitionFunction> collection) => Add(collection);
+        private List<TransitionFunction> transitionFunctions = new();
 
-        public TransitionFunctionsTable() => transitionFunctions = new List<TransitionFunction>();
-
-        static private readonly TransitionFunctionsTable _default = new TransitionFunctionsTable();
+        static private readonly TransitionFunctionsTable _default = new();
 
         static public TransitionFunctionsTable Default { get { return _default; } }
 
+        public TransitionFunctionsTable() { }
+
+        public TransitionFunctionsTable(IEnumerable<TransitionFunction> collection) => Add(collection);
+
+        public TransitionFunctionsTable(TransitionFunctionsTable table)
+        {
+            ArgumentNullException.ThrowIfNull(table);
+
+            transitionFunctions = new List<TransitionFunction>(table.transitionFunctions);
+        }
+
+        public IEnumerator<TransitionFunction> GetEnumerator() => transitionFunctions.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         public void Add(TransitionFunction tf)
         {
-            if (tf == null)
-                throw new ArgumentNullException(nameof(tf));
+            ArgumentNullException.ThrowIfNull(tf);
 
             transitionFunctions.Add(tf);
 
             RemoveCopies();
         }
+
         public void Add(IEnumerable<TransitionFunction> collection)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            ArgumentNullException.ThrowIfNull(collection);
 
             transitionFunctions.AddRange(collection);
 
@@ -107,10 +121,6 @@ namespace TuringEmulator
         {
             return transitionFunctions.FirstOrDefault(s => s.TapeSymbol == symbol && s.CurrentState == state) ?? TransitionFunction.Default;
         }
-
-        public IEnumerator<TransitionFunction> GetEnumerator() => transitionFunctions.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         private void RemoveCopies()
         {
@@ -124,5 +134,6 @@ namespace TuringEmulator
                 .Select(f => f.First())
                 .ToList();
         }
+
     }
 }
