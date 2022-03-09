@@ -6,13 +6,12 @@ namespace TuringEmulator
     {
         static void Main(string[] args)
         {
-            TuringMachine machine = new TuringMachine();
-            machine.Alphabet = "01*";
+            TuringMachine machine = new();
             machine.Alphabet = " 1";
             machine.State = 0;
-            Console.WriteLine(machine.Alphabet);
-            TransitionFunctionsTable table = new TransitionFunctionsTable
-                (new[]
+            machine.Tape = new InfTape("111 111", 0);
+            TransitionFunctionsTable table = new(
+                new[]
                 {
                     new TransitionFunction(0, ' ', 0, ' ', Directions.Right),
                     new TransitionFunction(0, '1', 1, '1', Directions.Right),
@@ -25,16 +24,16 @@ namespace TuringEmulator
                     new TransitionFunction(4, ' ', TuringMachine.HALT, ' ', Directions.None),
                     new TransitionFunction(4, '1', 4, '1', Directions.Left)
                 });
-            machine.Tape = new InfTape(" 11 11", 0);
-            Console.WriteLine(machine.Tape);
             machine.Table = table;
-            while(machine.State != TuringMachine.HALT)
+
+            while (machine.State != TuringMachine.HALT)
             {
                 machine.RunCommand();
                 Console.WriteLine(machine.Tape);
             }
             Console.WriteLine(machine.Tape);
-            
+
+
         }
     }
 }
