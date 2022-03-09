@@ -17,13 +17,7 @@ namespace TuringEmulator
         public int CurrentState
         {
             get { return currentState; }
-            set
-            {
-                if (value < TuringMachine.HALT)
-                    currentState = TuringMachine.HALT;
-
-                currentState = value;
-            }
+            set { currentState = ConvertToCommonState(value); }
         }
 
         public char TapeSymbol { get; }
@@ -33,14 +27,9 @@ namespace TuringEmulator
         public int NextState
         {
             get { return nextState; }
-            set
-            {
-                if (value < TuringMachine.HALT)
-                    nextState = TuringMachine.HALT;
-
-                nextState = value;
-            }
+            set { nextState = ConvertToCommonState(value); }
         }
+
         public char WriteSymbol { get; }
 
         public Directions Direction { get; }
@@ -60,7 +49,6 @@ namespace TuringEmulator
         }
 
  
-
         bool IEquatable<TransitionFunction>.Equals(TransitionFunction? other)
         {
             ArgumentNullException.ThrowIfNull(other);
@@ -71,6 +59,8 @@ namespace TuringEmulator
 
         public override string ToString() => CurrentState.ToString() + TapeSymbol +
             "->" + NextState.ToString() + WriteSymbol + Direction.ToString()[0];
+
+        private int ConvertToCommonState(int state) => state < 0 ? -1 : state;
 
     }
 

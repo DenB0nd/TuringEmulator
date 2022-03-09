@@ -9,7 +9,7 @@ namespace TuringEmulator
             TuringMachine machine = new();
             machine.Alphabet = " 1";
             machine.State = 0;
-            machine.Tape = new InfiniteTape("111 111", 0);
+            machine.Tape = new InfiniteTape("111 11 1", 0);
             TransitionFunctionsTable table = new(
                 new[]
                 {
@@ -33,9 +33,7 @@ namespace TuringEmulator
             Console.WriteLine(machine.Tape);
             Console.WriteLine(machine2.Tape);
 
-            Console.WriteLine();
-
-
+            Console.WriteLine(new TransitionFunction(-2, ' ', -2, ' ', Directions.Right));
         }
     }
 }
