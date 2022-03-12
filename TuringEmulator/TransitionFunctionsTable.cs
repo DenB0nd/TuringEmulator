@@ -9,6 +9,13 @@ namespace TuringEmulator
 {
     public class TransitionFunctionsTable : IEnumerable<TransitionFunction>
     {
+        public int Count 
+        {
+            get
+            {
+                return transitionFunctions.Count;
+            }
+        }
 
         private List<TransitionFunction> transitionFunctions = new();
 
@@ -57,6 +64,7 @@ namespace TuringEmulator
         private void RemoveCopies()
         {
             transitionFunctions = transitionFunctions
+                .AsParallel()
                 .Where(s => s != null)
                 .GroupBy(g => new
                 {
