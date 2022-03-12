@@ -11,7 +11,10 @@
         private string alphabet = " ";
         public string Alphabet
         {
-            get { return alphabet; }
+            get
+            { 
+                return alphabet; 
+            }
             set 
             {
                 alphabet = new string((value + " ")
