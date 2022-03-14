@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="DarkThemeBackground" TargetType="Panel">
+        <Setter Property="Background" Value="#FF444444"/>
+    </Style>
+    <Style TargetType="Border">
+        <Setter Property="BorderBrush" Value="#FFF0682C"/>
+    </Style>
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="#FFF0682C"/>
+    </Style>
+    <Style x:Key="LeftAndRightButtons" >
+        <Setter Property="Button.FontWeight" Value="ExtraBold"/>
+        <Setter Property="Button.FontSize" Value="24"/>
+        <Setter Property="Button.BorderThickness" Value="0"/>
+    </Style>
+
+</ResourceDictionary>
