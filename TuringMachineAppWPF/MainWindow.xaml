@@ -49,12 +49,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="13*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Grid.Column="0"
                            Text="State: "
-                           Style="{DynamicResource TextBlockTextColor}"/>
-                <TextBlock Grid.Column="1"
-                           Text="X"
                            Style="{DynamicResource TextBlockTextColor}"/>
                 <TextBlock Grid.Column="2"
                            Text="Step: "                           
@@ -68,75 +65,56 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="25*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <DataGrid Grid.Row="1"
+                          Grid.Column="1">
+                    
+                </DataGrid>
+
+                <TextBlock Grid.Column="13"
+                           Text="X"
+                           Foreground="#FFF0682C"
+                           TextAlignment="Center"
+                           FontSize="16"/>
                 
                 <Button Grid.Column ="0"
+                        Grid.RowSpan="3"
                         Content="&lt;"
                         Style="{DynamicResource LeftAndRightButtons}"/>
-                <TextBox Grid.Column="1"/>
-                <TextBox Grid.Column="2"/>
-                <TextBox Grid.Column="3"/>
-                <TextBox Grid.Column="4"/>
-                <TextBox Grid.Column="5"/>
-                <TextBox Grid.Column="6"/>
-                <TextBox Grid.Column="7"/>
-                <TextBox Grid.Column="8"/>
-                <TextBox Grid.Column="9"/>
-                <TextBox Grid.Column="10"/>
-                <TextBox Grid.Column="11"/>
-                <TextBox Grid.Column="12"/>
-                <TextBox Grid.Column="13"/>
-                <TextBox Grid.Column="14"/>
-                <TextBox Grid.Column="15"/>
-                <TextBox Grid.Column="16"/>
-                <TextBox Grid.Column="17"/>
-                <TextBox Grid.Column="18"/>
-                <TextBox Grid.Column="19"/>
-                <TextBox Grid.Column="20"/>
-                <TextBox Grid.Column="21"/>
-                <TextBox Grid.Column="22"/>
-                <TextBox Grid.Column="23"/>
-                <TextBox Grid.Column="24"/>
-                <TextBox Grid.Column="25"/>
+             
                 <Button  Grid.Column="26"
                         Content="&gt;"
+                        Grid.RowSpan="3"
                         Style="{DynamicResource LeftAndRightButtons}"/>
 
                 <Grid.Resources>
                     <Style TargetType="TextBox">
                         <Setter Property="Margin" Value="2"/>
+                        <Setter Property="Grid.Row" Value="1"/>
+                        <Setter Property="TextAlignment" Value="Center"/>
+                        <Setter Property="FontSize" Value="20"/>
+                        <Setter Property="Text" Value="0"/>
+                        <Setter Property="MaxLength" Value="1"/>
                     </Style>
                 </Grid.Resources>
-              
+
             </Grid>
-            
-                
+
+            <Grid Grid.Column="1"
+                  Grid.Row="3">
+                <DataGrid Margin="0,5,0,0"
+                          Background="#FF444444">
+
+                </DataGrid>
+            </Grid>
         </Grid>
     </Grid>
 
