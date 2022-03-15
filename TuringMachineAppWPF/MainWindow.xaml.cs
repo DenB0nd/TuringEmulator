@@ -20,26 +20,14 @@ namespace TuringMachineAppWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<TextBlock> TapeTextBlockArray = new List<TextBlock>();
+        
         public MainWindow()
         {
             InitializeComponent();
             
         }
 
-        /*private void CreateTextBoxTape()
-        {
-            for (int i = 0; i < 25; i++)
-            {
-                TextBlock t = new TextBlock();
-                t.Text = Convert.ToString(i - 12);
-                TapeTextBlockArray.Add(t);
-                t.Background = new SolidColorBrush(Colors.White);
-                Grid.SetColumn(t, i + 1);
-                Grid.SetRow(t, 1);
-                TapeGrid.Children.Add(TapeTextBlockArray[i]);
-            }
-        }*/
+       
 
 
     }

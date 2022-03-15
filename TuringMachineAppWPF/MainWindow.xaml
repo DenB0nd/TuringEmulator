@@ -12,9 +12,7 @@
         WindowStartupLocation="CenterScreen"
         >
 
-    <Grid Style="{DynamicResource DarkThemeBackground}">
-
-        
+    <Grid Style="{DynamicResource ThemeBackground}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
@@ -27,17 +25,47 @@
         </Border>
 
         <Grid Grid.Column="0">
+            
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="2" 
+            <Border Grid.Row="3" 
                     BorderThickness="0,10,0,0"/>
-            <Grid x:Name="TapeGrid" Grid.Row="1" 
-                       Style="{DynamicResource DarkThemeBackground}"
-                       Margin="5" Loaded="TapeGrid_Loaded">
+            <Border Grid.Row="2" 
+                    BorderThickness="5,5,5,5"/>
+            <Border Grid.Row="1" 
+                    BorderThickness="5,5,5,0"/>
+
+            <Grid Grid.Row="1"
+                  Style="{DynamicResource ThemeBackground}"
+                   Margin="5,5,0,0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="13*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0"
+                           Text="State: "
+                           Style="{DynamicResource TextBlockTextColor}"/>
+                <TextBlock Grid.Column="1"
+                           Text="X"
+                           Style="{DynamicResource TextBlockTextColor}"/>
+                <TextBlock Grid.Column="2"
+                           Text="Step: "                           
+                           Style="{DynamicResource TextBlockTextColor}"/>
+
+            </Grid>
+
+            <Grid x:Name="TapeGrid" Grid.Row="2" 
+                       Style="{DynamicResource ThemeBackground}"
+                       Margin="5,5,0,0">
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -67,29 +95,48 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
+                
                 <Button Grid.Column ="0"
-                        Grid.RowSpan="2"
                         Content="&lt;"
                         Style="{DynamicResource LeftAndRightButtons}"/>
                 <TextBox Grid.Column="1"/>
-                <Button Grid.Column ="26"
-                        Grid.RowSpan="2"
+                <TextBox Grid.Column="2"/>
+                <TextBox Grid.Column="3"/>
+                <TextBox Grid.Column="4"/>
+                <TextBox Grid.Column="5"/>
+                <TextBox Grid.Column="6"/>
+                <TextBox Grid.Column="7"/>
+                <TextBox Grid.Column="8"/>
+                <TextBox Grid.Column="9"/>
+                <TextBox Grid.Column="10"/>
+                <TextBox Grid.Column="11"/>
+                <TextBox Grid.Column="12"/>
+                <TextBox Grid.Column="13"/>
+                <TextBox Grid.Column="14"/>
+                <TextBox Grid.Column="15"/>
+                <TextBox Grid.Column="16"/>
+                <TextBox Grid.Column="17"/>
+                <TextBox Grid.Column="18"/>
+                <TextBox Grid.Column="19"/>
+                <TextBox Grid.Column="20"/>
+                <TextBox Grid.Column="21"/>
+                <TextBox Grid.Column="22"/>
+                <TextBox Grid.Column="23"/>
+                <TextBox Grid.Column="24"/>
+                <TextBox Grid.Column="25"/>
+                <Button  Grid.Column="26"
                         Content="&gt;"
                         Style="{DynamicResource LeftAndRightButtons}"/>
 
-                
-
                 <Grid.Resources>
                     <Style TargetType="TextBox">
-                        <Setter Property="Grid.Row" Value="1"/>
+                        <Setter Property="Margin" Value="2"/>
                     </Style>
                 </Grid.Resources>
+              
             </Grid>
+            
+                
         </Grid>
     </Grid>
 
