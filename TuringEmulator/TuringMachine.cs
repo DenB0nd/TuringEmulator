@@ -41,16 +41,24 @@
         {          
             while (State != HALT)
             {
-                RunCommand();
+                if(!TryRunCommand())
+                {
+                    break;
+                }
             }
             return this;
         }
 
-        public void RunCommand()
+        public bool TryRunCommand()
         {
-            TransitionFunction tf = Table.FindFunctionToPerform(Tape[Head], State);
-            CheckFunction(tf);
+            TransitionFunction tf = Table.FindFunctionToPerformOrDefault(Tape[Head], State);
+            if (!CheckFunction(tf))
+            {
+                return false;
+            } 
+                
             MakeStep(tf);
+            return true;
         }
 
         public void Reset()
@@ -59,9 +67,13 @@
             State = 0;
         }
 
-        private void CheckFunction(TransitionFunction tf)
+        private bool CheckFunction(TransitionFunction tf)
         {
-            ArgumentNullException.ThrowIfNull(tf);
+            return true;
+
+            //ЗАВТРА СДЕЛАЙ!!!!
+
+            /*ArgumentNullException.ThrowIfNull(tf);
 
             if (tf == TransitionFunction.Default)
                 TMThrowHelper.ThrowCommandException(Tape[Head], State);
@@ -70,7 +82,7 @@
                 TMThrowHelper.ThrowAlphabetException(nameof(tf.TapeSymbol), tf.TapeSymbol);
 
             if (!Alphabet.Contains(tf.WriteSymbol))
-                TMThrowHelper.ThrowAlphabetException(nameof(tf.WriteSymbol), tf.WriteSymbol);
+                TMThrowHelper.ThrowAlphabetException(nameof(tf.WriteSymbol), tf.WriteSymbol);*/
        
         }
 
@@ -82,17 +94,5 @@
         }
 
         private void MoveHead(Directions direction) => Head += (int)direction;
-    }
-
-    static class TMThrowHelper
-    {
-        static public void ThrowAlphabetException(string name, char symbol)
-        {
-            throw new ArgumentException($"The Alphabet doesn't contain this {name} - \"{symbol}\"");
-        }
-        static public void ThrowCommandException(char symbol, int state)
-        {
-            throw new ArgumentException($"The table doesn't contain a command with the required parameters TapeSymbol - \"{symbol}\", State - {state}");
-        }
     }
 }

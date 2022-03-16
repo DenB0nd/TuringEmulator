@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace TuringEmulator
 {
@@ -19,9 +14,7 @@ namespace TuringEmulator
 
         private List<TransitionFunction> transitionFunctions = new();
 
-        static private readonly TransitionFunctionsTable _default = new();
-
-        static public TransitionFunctionsTable Default { get { return _default; } }
+        static public TransitionFunctionsTable Default => new();
 
         public TransitionFunctionsTable() { }
 
@@ -56,7 +49,7 @@ namespace TuringEmulator
             RemoveCopies();
         }
 
-        public TransitionFunction FindFunctionToPerform(char symbol, int state)
+        public TransitionFunction FindFunctionToPerformOrDefault(char symbol, int state)
         {
             return transitionFunctions.FirstOrDefault(s => s.TapeSymbol == symbol && s.CurrentState == state) ?? TransitionFunction.Default;
         }

@@ -31,9 +31,7 @@
 
         public Directions Direction { get; }
 
-        static private readonly TransitionFunction _default = new TransitionFunction();
-
-        static public TransitionFunction Default { get { return _default; } }
+        static public TransitionFunction Default => new();
 
         public TransitionFunction(int currentState = TuringMachine.HALT, char tapeSymbol = ' ',
             int nextState = TuringMachine.HALT, char writeSymbol = ' ', Directions direction = Directions.None)
