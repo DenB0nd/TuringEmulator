@@ -43,7 +43,7 @@
             Direction = direction;
         }
 
- 
+
         bool IEquatable<TransitionFunction>.Equals(TransitionFunction? other)
         {
             ArgumentNullException.ThrowIfNull(other);
@@ -52,8 +52,7 @@
                 NextState == other.NextState && WriteSymbol == other.WriteSymbol && Direction == other.Direction;
         }
 
-        public override string ToString() => CurrentState.ToString() + TapeSymbol +
-            "->" + NextState.ToString() + WriteSymbol + Direction.ToString()[0];
+        public override string ToString() => $"{CurrentState}{TapeSymbol}->{NextState }{WriteSymbol}{Direction}";
 
         private int ConvertToCommonState(int state) => state < 0 ? -1 : state;
 

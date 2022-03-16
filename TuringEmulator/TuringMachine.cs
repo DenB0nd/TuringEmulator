@@ -41,7 +41,8 @@
         {          
             while (State != HALT)
             {
-                if(!TryRunCommand())
+                TransitionFunction tf = Table.FindFunctionToPerformOrDefault(Tape[Head], State);
+                if (!TryRunCommand(tf))
                 {
                     break;
                 }
@@ -49,14 +50,12 @@
             return this;
         }
 
-        public bool TryRunCommand()
-        {
-            TransitionFunction tf = Table.FindFunctionToPerformOrDefault(Tape[Head], State);
+        public bool TryRunCommand(TransitionFunction tf)
+        {    
             if (!CheckFunction(tf))
             {
                 return false;
-            } 
-                
+            }        
             MakeStep(tf);
             return true;
         }
@@ -69,21 +68,7 @@
 
         private bool CheckFunction(TransitionFunction tf)
         {
-            return true;
-
-            //ЗАВТРА СДЕЛАЙ!!!!
-
-            /*ArgumentNullException.ThrowIfNull(tf);
-
-            if (tf == TransitionFunction.Default)
-                TMThrowHelper.ThrowCommandException(Tape[Head], State);
-
-            if (!Alphabet.Contains(tf.TapeSymbol))
-                TMThrowHelper.ThrowAlphabetException(nameof(tf.TapeSymbol), tf.TapeSymbol);
-
-            if (!Alphabet.Contains(tf.WriteSymbol))
-                TMThrowHelper.ThrowAlphabetException(nameof(tf.WriteSymbol), tf.WriteSymbol);*/
-       
+            return true;       
         }
 
         private void MakeStep(TransitionFunction tf)

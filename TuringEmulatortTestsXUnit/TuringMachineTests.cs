@@ -52,5 +52,85 @@ namespace TuringEmulatortTestsXUnit
             Assert.Throws<ArgumentNullException>(() => table.Add(functionNull));
             Assert.Throws<ArgumentNullException>(() => table.Add(tableNull));
         }
+
+        [Fact]
+        public void TuringMachine_RunTest_Swap0and1()
+        {
+            TuringMachine machine = new();
+            machine.Alphabet = " 01";
+            machine.State = 0;
+            machine.Tape = new InfiniteTape("0101010", 0);
+            TransitionFunctionsTable table = new(
+                new[]
+                {
+                    new TransitionFunction(0, '0', 0, '1', Directions.Right),
+                    new TransitionFunction(0, '1', 0, '0', Directions.Right),
+                    new TransitionFunction(0, ' ', TuringMachine.HALT, ' ', Directions.None)
+                });
+            machine.Table = table;
+
+            machine.Run();
+            Assert.Equal(new InfiniteTape("1010101 "),machine.Tape);
+        }
+
+        [Fact]
+        public void TuringMachine_RunTest_CopySubroutine()
+        {
+            TuringMachine machine = new();
+            machine.Alphabet = " 01";
+            machine.State = 0;
+            machine.Tape = new InfiniteTape(new String('1', 5), 0);
+            TransitionFunctionsTable table = new TransitionFunctionsTable(new[]
+                {
+                    new TransitionFunction(0, ' ', TuringMachine.HALT, ' ', Directions.None),
+                    new TransitionFunction(0, '1', 1, ' ', Directions.Right),
+                    new TransitionFunction(1, ' ', 2, ' ', Directions.Right),
+                    new TransitionFunction(1, '1', 1, '1', Directions.Right),
+                    new TransitionFunction(2, ' ', 3, '1', Directions.Left),
+                    new TransitionFunction(2, '1', 2, '1', Directions.Right),
+                    new TransitionFunction(3, ' ', 4, ' ', Directions.Left),
+                    new TransitionFunction(3, '1', 3, '1', Directions.Left),
+                    new TransitionFunction(4, ' ', 0, '1', Directions.Right),
+                    new TransitionFunction(4, '1', 4, '1', Directions.Left)
+                });
+
+            machine.Table = table;
+
+            machine.Run();
+
+            Assert.Equal(new InfiniteTape("11111 11111"), machine.Tape);
+        }
+
+        [Fact]
+        public void TuringMachine_RunTest_SayHelloInsteadOfAnyword()
+        {
+            TuringMachine machine = new();
+            machine.Alphabet = "abcdefghijklmnopqrstuvwxyz";
+            machine.State = 0;
+            string tapeString = "abhhcewrkbapbslmxlzmbozfsmbinwarijcnvjznrbabaebczbeb";
+            machine.Tape = new InfiniteTape(tapeString, 0);
+            TransitionFunctionsTable table = new TransitionFunctionsTable(new[]
+                {
+                    new TransitionFunction(0, ' ', TuringMachine.HALT, ' ', Directions.None),
+                    new TransitionFunction(1, ' ', 2, ' ', Directions.Left),
+                    new TransitionFunction(2, ' ', 2, ' ', Directions.Left),
+                    new TransitionFunction(2, 'h', 3, 'h', Directions.Right),
+                    new TransitionFunction(3, ' ', 4, 'e', Directions.Right),
+                    new TransitionFunction(4, ' ', 5, 'l', Directions.Right),
+                    new TransitionFunction(5, ' ', 6, 'l', Directions.Right),
+                    new TransitionFunction(6, ' ', TuringMachine.HALT, 'o', Directions.None),
+                });
+
+            foreach (var item in tapeString)
+            {
+                table.Add(new TransitionFunction(0, item, 1, 'h', Directions.Right));
+                table.Add(new TransitionFunction(1, item, 1, ' ', Directions.Right));
+            }
+
+            machine.Table = table;
+            machine.Run();
+
+            Assert.Equal(new InfiniteTape($"hello{new String(' ', tapeString.Length - 4)}"), machine.Tape);
+        }
     }
 }
