@@ -1,15 +1,20 @@
 using Xunit;
 using TuringEmulator;
 using System;
+using System.Collections.Generic;
 
 namespace TuringEmulatortTestsXUnit
 {
     public class TuringMachineTests
     {
+        public IEnumerable<object[]> AlphabetData()
+        {
+            yield return new object[] { "", " " };
+            yield return new object[] { "   ", " " };
+            yield return new object[] { "112223334445555!", "12345! " };
+        }
         [Theory]
-        [InlineData("", " ")]
-        [InlineData("   ", " ")]
-        [InlineData("112223334445555!", "12345! ")]
+        [MemberData("AlphabetData")]
         public void AlphabetSetTest(string alphabet, string expected)
         {
             TuringMachine machine = new TuringMachine();
@@ -73,13 +78,32 @@ namespace TuringEmulatortTestsXUnit
             Assert.Equal(new InfiniteTape("1010101 "),machine.Tape);
         }
 
-        [Fact]
-        public void TuringMachine_RunTest_CopySubroutine()
+        public IEnumerable<Object> CopySubroutineData()
+        {
+            Random random = new Random();
+            for(int i = 0; i < 10; i++)
+            {
+                InfiniteTape tape = new InfiniteTape(new String('1', random.Next(i * i)));
+                InfiniteTape expected = new InfiniteTape($"{tape.ToString} {tape.ToString}");
+                yield return new object[]
+                    {
+                        tape,
+                        expected
+                    };
+
+            }
+        }
+            
+
+
+        [Theory]
+        [MemberData("CopySubroutineData")]
+        public void TuringMachine_RunTest_CopySubroutine(InfiniteTape tape, InfiniteTape expected)
         {
             TuringMachine machine = new();
             machine.Alphabet = " 01";
             machine.State = 0;
-            machine.Tape = new InfiniteTape(new String('1', 5), 0);
+            machine.Tape = tape;
             TransitionFunctionsTable table = new TransitionFunctionsTable(new[]
                 {
                     new TransitionFunction(0, ' ', TuringMachine.HALT, ' ', Directions.None),
@@ -93,12 +117,11 @@ namespace TuringEmulatortTestsXUnit
                     new TransitionFunction(4, ' ', 0, '1', Directions.Right),
                     new TransitionFunction(4, '1', 4, '1', Directions.Left)
                 });
-
             machine.Table = table;
 
             machine.Run();
 
-            Assert.Equal(new InfiniteTape("11111 11111"), machine.Tape);
+            Assert.Equal(expected, machine.Tape);
         }
 
         [Fact]

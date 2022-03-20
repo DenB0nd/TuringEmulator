@@ -11,6 +11,9 @@
         MinHeight="450" MinWidth="800"   
         WindowStartupLocation="CenterScreen"
         >
+    <Window.DataContext>
+        <local:ApplicationViewModel/>
+    </Window.DataContext>
 
     <Grid Style="{DynamicResource ThemeBackground}">
 
@@ -53,6 +56,10 @@
                 <TextBlock Grid.Column="0"
                            Text="State: "
                            Style="{DynamicResource TextBlockTextColor}"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding StateText}"
+                           TextAlignment="Left"
+                           Style="{DynamicResource TextBlockTextColor}"/>
                 <TextBlock Grid.Column="2"
                            Text="Step: "                           
                            Style="{DynamicResource TextBlockTextColor}"/>
@@ -75,8 +82,19 @@
                 </Grid.RowDefinitions>
 
                 <DataGrid Grid.Row="1"
-                          Grid.Column="1">
-                    
+                          Grid.Column="1"
+                          ItemsSource="{Binding Path=VisibleTape}"
+                          
+                          >
+                    <DataGrid.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding Path=Cell}"
+                                         Margin="1"
+                                         Foreground="Black"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGrid.ItemTemplate>
                 </DataGrid>
 
                 <TextBlock Grid.Column="13"
@@ -88,23 +106,14 @@
                 <Button Grid.Column ="0"
                         Grid.RowSpan="3"
                         Content="&lt;"
-                        Style="{DynamicResource LeftAndRightButtons}"/>
-             
+                        Style="{DynamicResource LeftAndRightButtons}"
+                        Command="{Binding VisiblePartToLeftCommand}"/>
+
                 <Button  Grid.Column="26"
                         Content="&gt;"
                         Grid.RowSpan="3"
-                        Style="{DynamicResource LeftAndRightButtons}"/>
-
-                <Grid.Resources>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Margin" Value="2"/>
-                        <Setter Property="Grid.Row" Value="1"/>
-                        <Setter Property="TextAlignment" Value="Center"/>
-                        <Setter Property="FontSize" Value="20"/>
-                        <Setter Property="Text" Value="0"/>
-                        <Setter Property="MaxLength" Value="1"/>
-                    </Style>
-                </Grid.Resources>
+                        Style="{DynamicResource LeftAndRightButtons}"
+                        Command="{Binding VisiblePartToRightCommand}"/>
 
             </Grid>
 
