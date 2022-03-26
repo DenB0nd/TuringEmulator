@@ -8,11 +8,11 @@ namespace TuringEmulator
         {
             get
             {
-                return transitionFunctions.Count;
+                return _transitionFunctions.Count;
             }
         }
 
-        private List<TransitionFunction> transitionFunctions = new();
+        private List<TransitionFunction> _transitionFunctions = new();
 
         static public TransitionFunctionsTable Default => new();
 
@@ -24,10 +24,10 @@ namespace TuringEmulator
         {
             ArgumentNullException.ThrowIfNull(table);
 
-            transitionFunctions = new List<TransitionFunction>(table.transitionFunctions);
+            _transitionFunctions = new List<TransitionFunction>(table._transitionFunctions);
         }
 
-        public IEnumerator<TransitionFunction> GetEnumerator() => transitionFunctions.GetEnumerator();
+        public IEnumerator<TransitionFunction> GetEnumerator() => _transitionFunctions.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -35,7 +35,7 @@ namespace TuringEmulator
         {
             ArgumentNullException.ThrowIfNull(tf);
 
-            transitionFunctions.Add(tf);
+            _transitionFunctions.Add(tf);
 
             RemoveCopies();
         }
@@ -44,19 +44,19 @@ namespace TuringEmulator
         {
             ArgumentNullException.ThrowIfNull(collection);
 
-            transitionFunctions.AddRange(collection);
+            _transitionFunctions.AddRange(collection);
 
             RemoveCopies();
         }
 
         public TransitionFunction FindFunctionToPerformOrDefault(char symbol, int state)
         {
-            return transitionFunctions.FirstOrDefault(s => s.TapeSymbol == symbol && s.CurrentState == state) ?? TransitionFunction.Default;
+            return _transitionFunctions.FirstOrDefault(s => s.TapeSymbol == symbol && s.CurrentState == state) ?? TransitionFunction.Default;
         }
 
         private void RemoveCopies()
         {
-            transitionFunctions = transitionFunctions
+            _transitionFunctions = _transitionFunctions
                 .AsParallel()
                 .Where(s => s != null)
                 .GroupBy(g => new

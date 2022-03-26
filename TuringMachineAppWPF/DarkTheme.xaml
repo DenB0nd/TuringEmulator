@@ -13,6 +13,8 @@
     <Style x:Key="LeftAndRightButtons" TargetType="Button">
         <Setter Property="FontWeight" Value="ExtraBold"/>
         <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="2"/>
     </Style>

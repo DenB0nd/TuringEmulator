@@ -77,41 +77,32 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <DataGrid Grid.Row="1"
-                          Grid.Column="1"
-                          ItemsSource="{Binding Path=VisibleTape}"
-                          
-                          >
-                    <DataGrid.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBox Text="{Binding Path=Cell}"
-                                         Margin="1"
-                                         Foreground="Black"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGrid.ItemTemplate>
-                </DataGrid>
-
-                <TextBlock Grid.Column="13"
-                           Text="X"
-                           Foreground="#FFF0682C"
-                           TextAlignment="Center"
-                           FontSize="16"/>
+                
                 
                 <Button Grid.Column ="0"
-                        Grid.RowSpan="3"
+                       Grid.RowSpan="3"
                         Content="&lt;"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center"
                         Style="{DynamicResource LeftAndRightButtons}"
                         Command="{Binding VisiblePartToLeftCommand}"/>
 
-                <Button  Grid.Column="26"
+                <TextBox Grid.Column ="1"
+                         Grid.Row="1"
+                         Text="{Binding Tape, UpdateSourceTrigger=PropertyChanged}"
+                         Foreground="Black"
+                         FontSize="20"                       
+                         />
+
+                <Button Grid.Column="2"
                         Content="&gt;"
                         Grid.RowSpan="3"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center"
                         Style="{DynamicResource LeftAndRightButtons}"
                         Command="{Binding VisiblePartToRightCommand}"/>
 
@@ -120,11 +111,77 @@
             <Grid Grid.Column="1"
                   Grid.Row="3">
                 <DataGrid Margin="0,5,0,0"
-                          Background="#FF444444">
+                          Background="#FF444444"
+                          ItemsSource="{Binding TransitionFunctionsModel}">
 
                 </DataGrid>
             </Grid>
         </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="Step"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Grid.Column="0"
+                    Margin="14,5,5,5"/>
+            
+            <Button Content="Run"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Grid.Column="1"
+                    Margin="5,5,5,5"/>
+            
+            <Button Content="Pause"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Grid.Column="2"
+                    Margin="5,5,5,5"/>
+            <Grid Grid.ColumnSpan="3"
+                       Grid.Row="1"
+                       Background="#FFF0682C">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                        
+                <CheckBox Grid.Column="0"
+                          Margin="8,0,2,0"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center"/>
+                <TextBox Grid.Column="1"
+                         Background="White"
+                         Foreground="Black"
+                         VerticalAlignment="Stretch"
+                         Text="Alphabet"/>
+                <Label Grid.Column="2"
+                       Background="Black"
+                       Foreground="White"
+                       VerticalAlignment="Stretch"
+                       Content="Alphabet"/>
+                
+                
+
+            </Grid>
+
+
+        </Grid>
+
     </Grid>
 
 

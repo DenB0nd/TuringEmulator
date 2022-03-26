@@ -9,8 +9,7 @@ namespace TuringEmulator
 
         private int Origin { get; set; } = 0;
 
-        static private readonly InfiniteTape _default = new InfiniteTape("", 0);
-        static public InfiniteTape Default { get { return _default; } }
+        static public InfiniteTape Default => new InfiniteTape("", 0);
 
         public InfiniteTape(StringBuilder str, int origin = 0)
         {

@@ -9,27 +9,27 @@
 
     public sealed class TransitionFunction : IEquatable<TransitionFunction>
     {
-        private int currentState;
+        private int _currentState;
 
         public int CurrentState
         {
-            get { return currentState; }
-            set { currentState = ConvertToCommonState(value); }
+            get { return _currentState; }
+            set { _currentState = ConvertToCommonState(value); }
         }
 
-        public char TapeSymbol { get; }
+        public char TapeSymbol { get; set; }
 
-        private int nextState;
+        private int _nextState;
 
         public int NextState
         {
-            get { return nextState; }
-            set { nextState = ConvertToCommonState(value); }
+            get { return _nextState; }
+            set { _nextState = ConvertToCommonState(value); }
         }
 
-        public char WriteSymbol { get; }
+        public char WriteSymbol { get; set; }
 
-        public Directions Direction { get; }
+        public Directions Direction { get; set; }
 
         static public TransitionFunction Default => new();
 
@@ -54,7 +54,7 @@
 
         public override string ToString() => $"{CurrentState}{TapeSymbol}->{NextState }{WriteSymbol}{Direction}";
 
-        private int ConvertToCommonState(int state) => state < 0 ? -1 : state;
+        private int ConvertToCommonState(int state) => state < 0 ? TuringMachine.HALT : state;
 
     }
 }

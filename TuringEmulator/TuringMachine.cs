@@ -8,16 +8,16 @@
         public InfiniteTape Tape { get; set; } = InfiniteTape.Default;
         public int Head { get; set; } = 0;
 
-        private string alphabet = " ";
+        private string _alphabet = " ";
         public string Alphabet
         {
             get
             { 
-                return alphabet; 
+                return _alphabet; 
             }
             set 
             {
-                alphabet = new string((value + " ")
+                _alphabet = new string((value + " ")
                     .Distinct()
                     .ToArray());
             }
