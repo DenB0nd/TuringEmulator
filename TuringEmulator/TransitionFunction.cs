@@ -44,17 +44,17 @@
         }
 
 
-        bool IEquatable<TransitionFunction>.Equals(TransitionFunction? other)
-        {
-            ArgumentNullException.ThrowIfNull(other);
 
-            return CurrentState == other.CurrentState && TapeSymbol == other.TapeSymbol &&
-                NextState == other.NextState && WriteSymbol == other.WriteSymbol && Direction == other.Direction;
-        }
 
         public override string ToString() => $"{CurrentState}{TapeSymbol}->{NextState }{WriteSymbol}{Direction}";
 
         private int ConvertToCommonState(int state) => state < 0 ? TuringMachine.HALT : state;
 
+        public bool Equals(TransitionFunction? other)
+        {
+            ArgumentNullException.ThrowIfNull(other);
+
+            return this.ToString() == other.ToString();
+        }
     }
 }

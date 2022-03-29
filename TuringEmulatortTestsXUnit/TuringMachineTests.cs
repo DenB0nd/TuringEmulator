@@ -7,20 +7,6 @@ namespace TuringEmulatortTestsXUnit
 {
     public class TuringMachineTests
     {
-        public IEnumerable<object[]> AlphabetData()
-        {
-            yield return new object[] { "", " " };
-            yield return new object[] { "   ", " " };
-            yield return new object[] { "112223334445555!", "12345! " };
-        }
-        [Theory]
-        [MemberData("AlphabetData")]
-        public void AlphabetSetTest(string alphabet, string expected)
-        {
-            TuringMachine machine = new TuringMachine();
-            machine.Alphabet = alphabet;
-            Assert.Equal(expected, machine.Alphabet);
-        }
 
         [Fact]
         public void TransitionFunctionsTable_AddOneFunction()
@@ -51,7 +37,7 @@ namespace TuringEmulatortTestsXUnit
         {
             TransitionFunctionsTable table = new TransitionFunctionsTable();
             int count = table.Count;
-            TransitionFunction functionNull = null;
+            TransitionFunction? functionNull = null;
             TransitionFunctionsTable tableNull = null;
 
             Assert.Throws<ArgumentNullException>(() => table.Add(functionNull));
@@ -62,7 +48,6 @@ namespace TuringEmulatortTestsXUnit
         public void TuringMachine_RunTest_Swap0and1()
         {
             TuringMachine machine = new();
-            machine.Alphabet = " 01";
             machine.State = 0;
             machine.Tape = new InfiniteTape("0101010", 0);
             TransitionFunctionsTable table = new(
@@ -101,7 +86,6 @@ namespace TuringEmulatortTestsXUnit
         public void TuringMachine_RunTest_CopySubroutine(InfiniteTape tape, InfiniteTape expected)
         {
             TuringMachine machine = new();
-            machine.Alphabet = " 01";
             machine.State = 0;
             machine.Tape = tape;
             TransitionFunctionsTable table = new TransitionFunctionsTable(new[]
@@ -128,7 +112,6 @@ namespace TuringEmulatortTestsXUnit
         public void TuringMachine_RunTest_SayHelloInsteadOfAnyword()
         {
             TuringMachine machine = new();
-            machine.Alphabet = "abcdefghijklmnopqrstuvwxyz";
             machine.State = 0;
             string tapeString = "abhhcewrkbapbslmxlzmbozfsmbinwarijcnvjznrbabaebczbeb";
             machine.Tape = new InfiniteTape(tapeString, 0);

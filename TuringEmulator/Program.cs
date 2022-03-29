@@ -7,46 +7,10 @@ namespace TuringEmulator
     {
         static void Main(string[] args)
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            stopwatch.Start();
-
-            TuringMachine machine = new();
-            machine.Alphabet = "abcdefghijklmnopqrstuvwxyz";
-            machine.State = 0;
-            string tapeString = "abhhcewrkbapbslmxlzmbozfsmbinwarijcnvjznrbabaebczbeb";
-            machine.Tape = new InfiniteTape(tapeString, 0);
-            TransitionFunctionsTable table = new TransitionFunctionsTable(new[]
-                {
-                    new TransitionFunction(0, ' ', TuringMachine.HALT, ' ', Directions.None),
-                    new TransitionFunction(1, ' ', 2, ' ', Directions.Left),
-                    new TransitionFunction(2, ' ', 2, ' ', Directions.Left),
-                    new TransitionFunction(2, 'h', 3, 'h', Directions.Right),
-                    new TransitionFunction(3, ' ', 4, 'e', Directions.Right),
-                    new TransitionFunction(4, ' ', 5, 'l', Directions.Right),
-                    new TransitionFunction(5, ' ', 6, 'l', Directions.Right),
-                    new TransitionFunction(6, ' ', TuringMachine.HALT, 'o', Directions.None),
-                });
-
-            foreach(var item in tapeString)
-            {
-                table.Add(new TransitionFunction(0, item, 1, 'h', Directions.Right));
-                table.Add(new TransitionFunction(1, item, 1, ' ', Directions.Right));
-            }
-
-            machine.Table = table;
-
-            while (machine.State != TuringMachine.HALT)
-            {
-                TransitionFunction tf = machine.Table.FindFunctionToPerformOrDefault(machine.Tape[machine.Head], machine.State);
-                if (!machine.TryRunCommand(tf))
-                {
-                    break;
-                }
-                Console.WriteLine($"{machine.Tape} | {machine.Head}");
-            }
-            Console.WriteLine($"{machine.Tape} | {machine.Head}");
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            TransitionFunction transitionFunction = new TransitionFunction();
+            Console.WriteLine(transitionFunction.ToString());
+            Console.WriteLine(TransitionFunction.Default.ToString());
+            Console.WriteLine(transitionFunction.Equals(TransitionFunction.Default));
             
         }
     }

@@ -76,4 +76,5 @@ namespace TuringEmulator
         private bool IndexRightSideTape(int index) => index > Tape.Length - Origin - 1;
         private bool IndexLeftSideTape(int index) => index < Math.Abs(Origin);
     }
+
 }

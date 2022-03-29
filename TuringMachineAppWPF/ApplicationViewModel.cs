@@ -1,27 +1,39 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Linq;
 using System.Windows;
-using System.Windows.Input;
-using TuringEmulator;
 
 namespace TuringMachineAppWPF
 {
     internal class ApplicationViewModel : BindableBase, INotifyPropertyChanged
     {
-        public LinkedList<TransitionFunctionModel> TransitionFunctionsModel { get; set; } = new LinkedList<TransitionFunctionModel>(new []{ TransitionFunctionModel.Default });
+        public ObservableCollection<TransitionFunctionModel> DataGridTransitionFunctions { get; set; } = new ObservableCollection<TransitionFunctionModel>(new []{ TransitionFunctionModel.Default });
 
-        private TuringMachineModel machine = new();
-        public TuringMachineModel Machine
+        private TuringMachineModel _machine = new();
+
+        private int _head;
+
+        public int Head
         {
-            get
+            get { return _head; }
+            set 
             {
-                machine.Tape = Tape;
-                return machine;
+                SetProperty(ref _head, value);
+                RaisePropertyChanged(nameof(HeadText));
+            }
+        }
+
+        private int _state = 0;
+
+        public int State
+        {
+            get { return _state; }
+            set
+            {
+                SetProperty(ref _state, value);
+                RaisePropertyChanged(nameof(StateText));
             }
         }
 
@@ -29,67 +41,59 @@ namespace TuringMachineAppWPF
         {
             get
             {
-                return new string(Center.ToString());
+                return $"State: {_state}";
             }
         }
 
-        private string tape = "";
-        public string Tape
+        public string HeadText
         {
             get
             {
-                return tape;
-            }
-            set
-            {
-                SetProperty(ref tape, value);
-                RaisePropertyChanged(nameof(Machine));
+                return $"Head: {_head}";
             }
         }
 
-        private int center = 0;
-        public int Center
+        private string _apllicationTape = "";
+        public string ApplicationTape
         {
             get
             {
-                return center;
+                return _apllicationTape;
             }
             set
             {
-                SetProperty(ref center, value);
-                RaisePropertyChanged(nameof(StateText));
-
+                SetProperty(ref _apllicationTape, value);
             }
         }
 
 
-
-        public ApplicationViewModel()
-        {
-            SetCommands();
-
-        }
+        public ApplicationViewModel() => SetCommands();
         private void SetCommands()
         {
-            VisiblePartToRightCommand = new DelegateCommand(() =>
-            {
-                Center++;
-            });
-            VisiblePartToLeftCommand = new DelegateCommand(() =>
-            {
-                Center--;
-                //MessageBox.Show("Left");
-            });
             MakeStep = new DelegateCommand(() =>
             {
-                machine.MakeStep();
+                if (_state != -1)
+                {
+                    _machine.Tape = ApplicationTape;
+                    _machine.Table.Add(DataGridTransitionFunctions.Select(x => x.GetFunction()));
+                    _machine.Head = _head;
+                    _machine.State = _state;
+                    _machine.MakeStep();
+                    State = _machine.State;
+                    Head = _machine.Head;
+                    ApplicationTape = _machine.Tape;
+                }
+                MessageBox.Show($"{ApplicationTape} {_head} {_state}");
+            });
+            AddCommand = new DelegateCommand(() =>
+            {
+                DataGridTransitionFunctions.Add(TransitionFunctionModel.Default);
             });
         }
 
         public DelegateCommand MakeStep { get; set; }
-        public DelegateCommand VisiblePartToRightCommand { get; set; }
+        public DelegateCommand AddCommand { get; set; }
 
-        public DelegateCommand VisiblePartToLeftCommand { get; set; }
 
     }
 }

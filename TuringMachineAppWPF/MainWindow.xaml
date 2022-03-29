@@ -49,19 +49,14 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="13*"/>
-                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="13*"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
-                           Text="State: "
-                           Style="{DynamicResource TextBlockTextColor}"/>
-                <TextBlock Grid.Column="1"
                            Text="{Binding StateText}"
-                           TextAlignment="Left"
                            Style="{DynamicResource TextBlockTextColor}"/>
                 <TextBlock Grid.Column="2"
-                           Text="Step: "                           
+                           Text="{Binding HeadText}"                           
                            Style="{DynamicResource TextBlockTextColor}"/>
 
             </Grid>
@@ -72,8 +67,6 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -81,54 +74,43 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                
-                
-                <Button Grid.Column ="0"
-                       Grid.RowSpan="3"
-                        Content="&lt;"
-                        VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        Style="{DynamicResource LeftAndRightButtons}"
-                        Command="{Binding VisiblePartToLeftCommand}"/>
 
                 <TextBox Grid.Column ="1"
                          Grid.Row="1"
-                         Text="{Binding Tape, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding ApplicationTape, UpdateSourceTrigger=PropertyChanged}"
                          Foreground="Black"
                          FontSize="20"                       
                          />
-
-                <Button Grid.Column="2"
-                        Content="&gt;"
-                        Grid.RowSpan="3"
-                        VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        Style="{DynamicResource LeftAndRightButtons}"
-                        Command="{Binding VisiblePartToRightCommand}"/>
 
             </Grid>
 
             <Grid Grid.Column="1"
                   Grid.Row="3">
-                <DataGrid Margin="0,5,0,0"
+                <DataGrid x:Name="Functions"
                           Background="#FF444444"
-                          ItemsSource="{Binding TransitionFunctionsModel}">
-
-                </DataGrid>
+                          ItemsSource="{Binding DataGridTransitionFunctions}"
+                          AlternatingRowBackground="#FFF0682C"
+                          CanUserAddRows="True"
+                          AutoGenerateColumns="False"
+                          >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Current State" Binding="{Binding Path=CurrentState}"/>
+                        <DataGridTextColumn Header="Tape Symbol" Binding="{Binding Path=TapeSymbol}"/>
+                        <DataGridTextColumn Header="Next State" Binding="{Binding Path=NextState}"/>
+                        <DataGridTextColumn Header="Write Symbol" Binding="{Binding Path=WriteSymbol}"/>
+                        <DataGridTextColumn Header="Direction" Binding="{Binding Path=Direction}"/>
+                    </DataGrid.Columns>
+              </DataGrid>
             </Grid>
         </Grid>
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="8*"/>
+                <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -137,51 +119,19 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Grid.Column="0"
-                    Margin="14,5,5,5"/>
-            
-            <Button Content="Run"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Grid.Column="1"
-                    Margin="5,5,5,5"/>
-            
-            <Button Content="Pause"
+                    Margin="14,5,5,5"
+                    Command="{Binding MakeStep}"/>
+
+
+            <Button Content="Add"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Grid.Column="2"
-                    Margin="5,5,5,5"/>
-            <Grid Grid.ColumnSpan="3"
-                       Grid.Row="1"
-                       Background="#FFF0682C">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="3*"/>
-                </Grid.ColumnDefinitions>
-                        
-                <CheckBox Grid.Column="0"
-                          Margin="8,0,2,0"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Center"/>
-                <TextBox Grid.Column="1"
-                         Background="White"
-                         Foreground="Black"
-                         VerticalAlignment="Stretch"
-                         Text="Alphabet"/>
-                <Label Grid.Column="2"
-                       Background="Black"
-                       Foreground="White"
-                       VerticalAlignment="Stretch"
-                       Content="Alphabet"/>
-                
-                
-
-            </Grid>
-
+                    Margin="5,5,5,5"
+                    Command="{Binding AddCommand}"
+                    />
 
         </Grid>
-
     </Grid>
 
 
